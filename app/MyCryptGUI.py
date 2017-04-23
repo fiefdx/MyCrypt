@@ -132,7 +132,7 @@ class TaskBarIcon(wx.TaskBarIcon):
         w = wx.SystemSettings.GetMetric(wx.SYS_SCREEN_X)
         h = wx.SystemSettings.GetMetric(wx.SYS_SCREEN_Y)
         if not self.preference:
-            self.preference = PreferenceFrame("Preference", (w / 2 - 90, h / 2 - 140), (180, -1))
+            self.preference = PreferenceFrame("Preference", (w / 2 - 90, h / 2 - 140), (180, 130))
             self.preference.Show()
 
     def on_restart(self, event):
@@ -157,6 +157,7 @@ class PreferenceFrame(wx.Frame):
         self.SetSizer(self.sizer)
         self.Layout()
         self.Fit()
+        self.SetSizeWH(size[0], size[1])
 
     def set_textctrl(self):
         self.te_server_port = wx.TextCtrl(self, -1, str(CONFIG["SERVER_PORT"]))
