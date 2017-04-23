@@ -1,0 +1,188 @@
+.btn-toolbar {
+    margin-bottom: 2px;
+}
+
+span#disk_space {
+    color: #093;
+}
+
+span.status {
+    color: #FF3300;
+}
+
+div#disk_partions {
+    margin-top: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    width: 160px;
+}
+
+div#file_list {
+    margin-left: 162px;
+    min-width: 300px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.header-fixed {
+    table-layout: fixed;
+    margin-bottom: 0px;
+    width: 100%;
+}
+
+tr {
+    width: 100%;
+    display: inline-table;
+}
+
+td {
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+div.outer {
+    position: relative;
+    height: 22px;
+}
+
+div.inner {
+    position: absolute;
+    width: 100%;
+    white-space: nowrap; 
+    overflow: hidden; 
+    overflow: ellipsis; 
+}
+
+.header-fixed > thead {
+    display: block;
+    /*margin-right: 15px;*/
+}
+
+.header-fixed > tbody {
+    display: block;
+    overflow-y: auto; 
+    width: 100%;
+}
+
+.breadcrumb {
+    margin-bottom: 0px;
+}
+
+#data_col_1 {
+    width: 5%;
+}
+
+#data_col_2 {
+    width: 50%;
+}
+
+#data_col_3 {
+    width: 25%;
+}
+
+#data_col_4 {
+    width: 20%;
+}
+
+.append_name {
+    color: #093;
+}
+
+th {
+    cursor: pointer;
+}
+
+th#num,
+td#num {
+    min-width: 80px;
+}
+
+th#name,
+td#name {
+    min-width: 80px;
+}
+
+th#decrypt_name,
+td#decrypt_name {
+    min-width: 80px;
+}
+
+th#type,
+td#type {
+    min-width: 80px;
+}
+
+th#mtime,
+td#mtime {
+    min-width: 160px;
+}
+
+th#size,
+td#size {
+    min-width: 90px;
+}
+
+.modal,
+.modal-dialog {
+    text-align: center;
+}
+
+#form_status,
+#form_encrypt,
+#form_decrypt,
+#form_delete,
+#form_copy,
+#form_cut,
+#form_paste,
+#form_warning,
+#form_hide,
+#form_show,
+#form_rename {
+    margin-top: 150px;
+    margin-bottom: 0px; 
+    padding: 0px
+}
+
+#tasks_list {
+    margin-bottom: 0px;
+}
+
+#task_item {
+    text-align: left;
+}
+
+#task_status {
+    line-height: 24px;
+}
+
+#task_name {
+    line-height: 30px;
+}
+
+div#warning_list {
+    text-align: left;
+    word-wrap: break-word; 
+}
+
+p.warning_item {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.modal-body {
+    margin-bottom: 10px;
+    min-height: 40px;
+}
+
+.modal-body > span {
+    min-height: 20px;
+}
+
+#display_hide_passwd,
+#display_show_passwd,
+#display_en_passwd,
+#display_de_passwd {
+    float: none;
+}

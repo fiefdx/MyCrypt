@@ -1,0 +1,42 @@
+{
+    "HOME_PATH": "/home/breeze/Tmp", 
+    "COLUMNS": [
+        {
+            "trans": "#", 
+            "key": "num", 
+            "value": "#", 
+            "display": true
+        }, 
+        {
+            "trans": "\u540d\u79f0", 
+            "key": "name", 
+            "value": "Name", 
+            "display": true
+        }, 
+        {
+            "trans": "\u89e3\u5bc6\u540e\u540d\u79f0", 
+            "key": "decrypt_name", 
+            "value": "Decrypt Name", 
+            "display": true
+        }, 
+        {
+            "trans": "\u7c7b\u578b", 
+            "key": "type", 
+            "value": "Type", 
+            "display": true
+        }, 
+        {
+            "trans": "\u5927\u5c0f", 
+            "key": "size", 
+            "value": "Size", 
+            "display": true
+        }, 
+        {
+            "trans": "\u4fee\u6539\u65e5\u671f", 
+            "key": "mtime", 
+            "value": "Date Modified", 
+            "display": true
+        }
+    ], 
+    "LANGUAGE": "zh_CN"
+}

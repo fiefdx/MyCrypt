@@ -1,0 +1,10 @@
+.list-group-item.active,
+.list-group-item.active:hover,
+.list-group-item.active:focus {
+  text-shadow: 0 -1px 0 #6699CC;
+  background-image: -webkit-linear-gradient(top, #6699CC 0%, #6699CC 100%);
+  background-image:         linear-gradient(to bottom, #6699CC 0%, #6699CC 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff6699CC', endColorstr='#ff6699CC', GradientType=0);
+  background-repeat: repeat-x;
+  border-color: #6699CC;
+}

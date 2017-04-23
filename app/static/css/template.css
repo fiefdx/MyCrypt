@@ -1,0 +1,35 @@
+div#body_container {
+    margin-top: 52px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.container {
+    margin-top: 80px;
+    max-width: 1920px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+a#navbar_header {
+    font-size: 20px;
+    margin-top: 0px;
+}
+
+div.language {
+    padding-top: 5px;
+    padding-bottom: 3px;
+}
+
+div.settings {
+    padding-top: 10px;
+    padding-bottom: 3px;
+}
+
+div.modal-footer {
+    margin-top: 0px;
+}
+
+div.modal-body {
+    padding-bottom: 0px;
+}

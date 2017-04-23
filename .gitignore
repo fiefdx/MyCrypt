@@ -1,0 +1,26 @@
+# ignore packages
+
+*.zip
+*.rar
+*.tar.gz
+*.tar
+*.7z
+*.exe
+
+# ignore files
+
+*.log
+*.log.*
+*.pid
+*.pyc
+*.desktop
+
+# ignore dirs
+
+requires/*
+dist/*
+
+# track dirs
+!requires/requirements.txt
+!.data
+!.doc

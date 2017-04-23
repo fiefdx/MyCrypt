@@ -1,0 +1,392 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{_("Encrypt")}}
+{% end %}
+
+{% block stylesheet %}
+<style type="text/css">
+</style>
+{% end %}
+
+{% block header %}
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">{{_("Encrypt and Decrypt")}}</a>
+        </div>
+    </div>
+{% end %}
+
+{% block body %}
+<div id="row_container" class="row-fluid">
+    <div class="btn-toolbar" role="toolbar">
+        <div class="btn-group">
+            <button id="btn_home" type="button" class="btn btn-default" title="{{_("Home Folder")}}">
+                <span class="glyphicon glyphicon-home"></span>
+            </button>
+            <button id="btn_previous" type="button" class="btn btn-default" title="{{_("The Parent Folder")}}">
+                <span class="glyphicon glyphicon-chevron-up"></span>
+            </button>
+            <button id="btn_refresh" type="button" class="btn btn-default" title="{{_("Refresh The Folder")}}">
+                <span class="glyphicon glyphicon-refresh"></span>
+            </button>
+        </div>
+        <div class="btn-group">
+            <button id="btn_rename" type="button" class="btn btn-default" title="{{_("Rename")}}">
+                <span class="glyphicon glyphicon-edit"></span>
+            </button>
+            <button id="btn_copy" type="button" class="btn btn-default" title="{{_("Copy")}}">
+                <span class="glyphicon glyphicon-log-out"></span>
+            </button>
+            <button id="btn_cut" type="button" class="btn btn-default"  title="{{_("Cut")}}">
+                <span class="glyphicon glyphicon-new-window"></span>
+            </button>
+            <button id="btn_paste" type="button" class="btn btn-default" title="{{_("Paste")}}">
+                <span class="glyphicon glyphicon-log-in"></span>
+            </button>
+            <button id="btn_delete" type="button" class="btn btn-default" title="{{_("Delete")}}">
+                <span class="glyphicon glyphicon-remove"></span>
+            </button>
+            <button id="btn_encrypt" type="button" class="btn btn-default" title="{{_("Encrypt")}}">
+                <span class="glyphicon glyphicon-save"></span>
+            </button>
+            <button id="btn_decrypt" type="button" class="btn btn-default" title="{{_("Decrypt")}}">
+                <span class="glyphicon glyphicon-open"></span>
+            </button>
+            <button id="btn_hide" type="button" class="btn btn-default" title="{{_("Hide")}}">
+                <span class="glyphicon glyphicon-eye-close"></span>
+            </button>
+            <button id="btn_show" type="button" class="btn btn-default" title="{{_("Show")}}">
+                <span class="glyphicon glyphicon-eye-open"></span>
+            </button>
+        </div>
+        <div class="btn-group">
+            <button id="status" type="button" class="btn btn-default" title="{{_("Task Status")}}">
+                <span class="glyphicon glyphicon-tasks"></span>
+            </button>
+            <button id="settings" type="button" class="btn btn-default" title="{{_("Settings")}}">
+                <span class="glyphicon glyphicon-cog"></span>
+            </button>
+        </div>
+    </div>
+    <ol id="path_bar" class="breadcrumb">
+    </ol>
+    <div id="disk_container" class="row-fluid">
+        <div id="disk_partions" class="col-xs-2">
+            <div id="partitions_div" class="list-group">
+            </div>
+        </div>
+        <div id="file_list" class="fluid">
+            <table class="table table-bordered table-hover header-fixed">
+                <thead>
+                    <tr>
+                    </tr>
+                </thead>
+                <tbody id="table_body">
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="rename_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="renameModalLabel" aria-hidden="true">
+        <form id="form_rename" class="form-horizontal">
+            <div id="dialog_rename" class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 id="renameModalLabel" class="modal-title">{{_("Rename File or Direcory")}}</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="control-label col-xs-4" for="user">{{_("New Name")}}</label>
+                            <div class="col-xs-8">
+                                <input id="new_name" class="form-control col-xs-10" type="text" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default" type="button" data-dismiss="modal" aria-hidden="true">{{_("Cancel")}}</button>
+                        <button id="rename_save" class="btn btn-primary" type="button" data-dismiss="modal" aria-hidden="true">{{_("Save")}}</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="delete_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <form id="form_delete" class="form-horizontal">
+            {% raw xsrf_form_html() %}
+            <div id="dialog_delete" class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 id="deleteModalLabel" class="modal-title">{{_("Warning")}}</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <span class="col-xs-12">{{_("Are you sure to delete files and directories?")}}</span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default" type="button" data-dismiss="modal" aria-hidden="true">{{_("Cancel")}}</button>
+                        <button id="delete_delete" class="btn btn-primary" type="button" data-dismiss="modal" aria-hidden="true">{{_("Delete")}}</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="copy_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="copyModalLabel" aria-hidden="true">
+        <form id="form_copy" class="form-horizontal">
+            {% raw xsrf_form_html() %}
+            <div id="dialog_copy" class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 id="copyModalLabel" class="modal-title">{{_("Warning")}}</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <span class="col-xs-12">{{_("Are you sure to copy files and directories?")}}</span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default" type="button" data-dismiss="modal" aria-hidden="true">{{_("Cancel")}}</button>
+                        <button id="copy_modal_btn" class="btn btn-primary" type="button" data-dismiss="modal" aria-hidden="true">{{_("Copy")}}</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="cut_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="cutModalLabel" aria-hidden="true">
+        <form id="form_cut" class="form-horizontal">
+            {% raw xsrf_form_html() %}
+            <div id="dialog_cut" class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 id="cutModalLabel" class="modal-title">{{_("Warning")}}</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <span class="col-xs-12">{{_("Are you sure to cut files and directories?")}}</span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default" type="button" data-dismiss="modal" aria-hidden="true">{{_("Cancel")}}</button>
+                        <button id="cut_modal_btn" class="btn btn-primary" type="button" data-dismiss="modal" aria-hidden="true">{{_("Cut")}}</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="paste_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="pasteModalLabel" aria-hidden="true">
+        <form id="form_paste" class="form-horizontal">
+            {% raw xsrf_form_html() %}
+            <div id="dialog_paste" class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 id="pasteModalLabel" class="modal-title">{{_("Warning")}}</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <span class="col-xs-12">{{_("Are you sure to paste files and directories here?")}}</span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default" type="button" data-dismiss="modal" aria-hidden="true">{{_("Cancel")}}</button>
+                        <button id="paste_modal_btn" class="btn btn-primary" type="button" data-dismiss="modal" aria-hidden="true">{{_("Paste")}}</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="encrypt_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="encryptModalLabel" aria-hidden="true">
+        <form id="form_encrypt" class="form-horizontal">
+            <div id="dialog_encrypt" class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 id="encryptModalLabel" class="modal-title">{{_("Encrypt File")}}</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="control-label col-xs-4" for="encrypt_passwd">{{_("Password")}}</label>
+                            <div class="col-xs-8">
+                                <input id="encrypt_passwd" class="form-control col-xs-10" type="password" autocomplete="off">
+                            </div>
+                        </div>
+                        <div id="div_display_passwd" class="checkbox">
+                            <label>
+                                <input id="display_en_passwd" value="unable" type="checkbox">&nbsp;{{_("Display The Password")}}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default" type="button" data-dismiss="modal" aria-hidden="true">{{_("Cancel")}}</button>
+                        <button id="encrypt_modal_btn" class="btn btn-primary" type="button" data-dismiss="modal" aria-hidden="true">{{_("Encrypt")}}</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="decrypt_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="decryptModalLabel" aria-hidden="true">
+        <form id="form_decrypt" class="form-horizontal">
+            <div id="dialog_decrypt" class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 id="decryptModalLabel" class="modal-title">{{_("Decrypt File")}}</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="control-label col-xs-4" for="decrypt_passwd">{{_("Password")}}</label>
+                            <div class="col-xs-8">
+                                <input id="decrypt_passwd" class="form-control col-xs-10" type="password" autocomplete="off">
+                            </div>
+                        </div>
+                        <div id="div_display_passwd" class="checkbox">
+                            <label>
+                                <input id="display_de_passwd" value="unable" type="checkbox">&nbsp;{{_("Display The Password")}}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default" type="button" data-dismiss="modal" aria-hidden="true">{{_("Cancel")}}</button>
+                        <button id="decrypt_modal_btn" class="btn btn-primary" type="button" data-dismiss="modal" aria-hidden="true">{{_("Decrypt")}}</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="hide_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="hideModalLabel" aria-hidden="true">
+        <form id="form_hide" class="form-horizontal">
+            <div id="dialog_hide" class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 id="hideModalLabel" class="modal-title">{{_("Hide File")}}</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="control-label col-xs-4" for="hide_passwd">{{_("Password")}}</label>
+                            <div class="col-xs-8">
+                                <input id="hide_passwd" class="form-control col-xs-10" type="password" autocomplete="off">
+                            </div>
+                        </div>
+                        <div id="div_display_passwd" class="checkbox">
+                            <label>
+                                <input id="display_hide_passwd" value="unable" type="checkbox">&nbsp;{{_("Display The Password")}}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default" type="button" data-dismiss="modal" aria-hidden="true">{{_("Cancel")}}</button>
+                        <button id="hide_modal_btn" class="btn btn-primary" type="button" data-dismiss="modal" aria-hidden="true">{{_("Hide")}}</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="show_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="showModalLabel" aria-hidden="true">
+        <form id="form_show" class="form-horizontal">
+            <div id="dialog_show" class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 id="showModalLabel" class="modal-title">{{_("Show File")}}</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="control-label col-xs-4" for="show_passwd">{{_("Password")}}</label>
+                            <div class="col-xs-8">
+                                <input id="show_passwd" class="form-control col-xs-10" type="password" autocomplete="off">
+                            </div>
+                        </div>
+                        <div id="div_display_passwd" class="checkbox">
+                            <label>
+                                <input id="display_show_passwd" value="unable" type="checkbox">&nbsp;{{_("Display The Password")}}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default" type="button" data-dismiss="modal" aria-hidden="true">{{_("Cancel")}}</button>
+                        <button id="show_modal_btn" class="btn btn-primary" type="button" data-dismiss="modal" aria-hidden="true">{{_("Show")}}</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="warning_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="warningModalLabel" aria-hidden="true">
+        <form id="form_warning" class="form-horizontal">
+            {% raw xsrf_form_html() %}
+            <div id="dialog_warning" class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 id="warningModalLabel" class="modal-title">{{_("Warning")}}</h3>
+                    </div>
+                    <div id="warning_body" class="modal-body">
+                        <div id="warning_list" class="form-group">
+                            <!-- <p id="warning_p" class="col-xs-12">
+                                <span id="warning_info" class="col-xs-12"></span>
+                            </p> -->
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default" type="button" data-dismiss="modal" aria-hidden="true">{{_("Cancel")}}</button>
+                        <button id="warning_ok" class="btn btn-primary" type="button" data-dismiss="modal" aria-hidden="true">{{_("OK")}}</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="info_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+        <form id="form_info" class="form-horizontal">
+            {% raw xsrf_form_html() %}
+            <div id="dialog_info" class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 id="infoModalLabel" class="modal-title">{{_("Information")}}</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <span id="info_info" class="col-xs-12"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default" type="button" data-dismiss="modal" aria-hidden="true">{{_("Cancel")}}</button>
+                        <button id="info_ok" class="btn btn-primary" type="button" data-dismiss="modal" aria-hidden="true">{{_("OK")}}</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% end %}
+
+{% block javascript %}
+<link href="{{ static_url("css/crypt.css") }}" rel="stylesheet" >
+<script src="{{ static_url("js/crypt.js") }}"></script>
+<script type="text/javascript">
+window.onload = window.onresize = function(){
+    $(document).ready(function(){
+        var window_height = $(window).height();
+        var window_width = $(window).width();
+        // $("div#file_list").height(window_height - 160);
+        $("tbody").height(window_height - 164);
+        console.log("window width: " + window_width + "px");
+    });
+}
+
+$(document).ready(function(){
+    var window_height = $(window).height();
+    var window_width = $(window).width();
+
+    // $("div#file_list").height(window_height - 160);
+    $("tbody").height(window_height - 164);
+    console.log("window width: " + window_width + "px");
+    cryptInit('{{user_locale}}');
+});
+</script>
+{% end %}

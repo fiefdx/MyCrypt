@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link href="{{ static_url("favicon.ico") }}">
+    <title>
+      {% block title %}
+        Base
+      {% end %}
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block meta %}
+      <meta name="keywords" content="encrypt, crypt, safe">
+      <meta name="description" content="encrypt, crypt, safe">
+    {% end %}
+    <link href="{{ static_url("bootstrap/css/bootstrap.css") }}" rel="stylesheet" />
+    <link href="{{ static_url("bootstrap/css/bootstrap-theme.css") }}" rel="stylesheet" />
+    <link href="{{ static_url("css/bootstrap.css") }}" rel="stylesheet" >
+    <link href="{{ static_url("css/bootstrap-theme.css") }}" rel="stylesheet" />
+    <link href="{{ static_url("css/template.css") }}" rel="stylesheet" />
+    <script src="{{ static_url("jquery/jquery-2.1.1.js") }}"></script>
+    <script src="{{ static_url("bootstrap/js/bootstrap.js") }}"></script>
+    
+    {% block stylesheet %}
+    {% end %}
+    {% block headscript %}
+    {% end %}
+</head>
+<body>
+    {% block header %}
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="navbar-header"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">{{_("Encrypt")}}</a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li id="Home" class>
+                    <a id="Home_a" href="/" >{{_("Home")}}</a>
+                </li>
+                <li id="Search" class>
+                    <a id="Search_a" href="/search" >{{_("Search")}}</a>
+                </li>
+                <li id="Help" class>
+                    <a id="Help_a" href="/help" >{{_("Help")}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    {% end %}
+
+    <div id="body_container" class="container-fluid" >
+        <div id="body_row" class="row">
+            {% block body %}
+
+            {% end %}
+            
+            {% block footer %}
+
+            {% end %}
+        </div>
+        <div id="settings_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel" aria-hidden="true">
+            <form id="form_settings" class="form-horizontal">
+                {% raw xsrf_form_html() %}
+                <div id="dialog_settings" class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h3 id="settingsModalLabel" class="modal-title">{{_("Settings")}}</h3>
+                        </div>
+                        <div class="modal-body">
+                            <div class="">
+                                <div class="language well">
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-4" for="lang">{{_("Language")}}</label>
+                                        <div class="col-xs-8">
+                                            <div class="radio col-xs-4">
+                                                <label>
+                                                    <input type="radio" class="en_US" name="optionsRadios" id="optionsRadios1" value="en_US">
+                                                    {{_("English")}}
+                                                </label>
+                                            </div>
+                                            <div class="radio col-xs-4">
+                                                <label>
+                                                    <input type="radio" class="zh_CN" name="optionsRadios" id="optionsRadios2" value="zh_CN">
+                                                    {{_("Chinese")}}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="settings well">
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-4" for="home_path">{{_("Home Path")}}</label>
+                                        <div class="col-xs-8">
+                                            <input class="r_home_path form-control col-xs-12" type="text" name="home_path"  id="home_path">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-4" for="passwd">{{_("Password")}}</label>
+                                        <div class="col-xs-8">
+                                            <input class="r_passwd form-control col-xs-12" type="password" name="passwd" autocomplete="off" id="passwd">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col_items well">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label id="num" class="btn btn-primary column">
+                                            <input id="num" class="column" type="checkbox"> {{_("Num")}}
+                                        </label>
+                                        <label id="name" class="btn btn-primary column">
+                                            <input id="name" class="column" type="checkbox"> {{_("Name")}}
+                                        </label>
+                                        <label id="decrypt_name" class="btn btn-primary column">
+                                            <input id="decrypt_name" class="column" type="checkbox"> {{_("Decrypt Name")}}
+                                        </label>
+                                        <label id="type" class="btn btn-primary column">
+                                            <input id="type" class="column" type="checkbox"> {{_("Type")}}
+                                        </label>
+                                        <label id="size" class="btn btn-primary column">
+                                            <input id="size" class="column" type="checkbox"> {{_("Size")}}
+                                        </label>
+                                        <label id="mtime" class="btn btn-primary column">
+                                            <input id="mtime" class="column" type="checkbox"> {{_("Date Modified")}}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-default" type="button" data-dismiss="modal" aria-hidden="true">{{_("Cancel")}}</button>
+                            <button id="settings_save" class="btn btn-primary" type="button">{{_("Save")}}</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="status_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="statusModalLabel" aria-hidden="true">
+            <form id="form_status" class="form-horizontal">
+                {% raw xsrf_form_html() %}
+                <div id="dialog_status" class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h3 id="statusModalLabel" class="modal-title">{{_("Status")}}</h3>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <ul id="tasks_list" class="list-group">
+                                    <!-- <li class="list-group-item">
+                                        <span id="task_name">Cras justo odio</span>
+                                        <span id="task_status" class="badge">Running</span>
+                                    </li> -->
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-default" type="button" data-dismiss="modal" aria-hidden="true">{{_("Cancel")}}</button>
+                            <button id="status_modal_btn" class="btn btn-primary" type="button" data-dismiss="modal" aria-hidden="true">{{_("OK")}}</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    {% block public_js %}
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $("." + "{{user_locale}}").attr("checked", "checked");
+    });
+    </script>
+    {% end %}
+
+    {% block javascript %}
+    
+    {% end %}
+</body>
+</html>
