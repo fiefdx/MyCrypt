@@ -35,6 +35,8 @@ try:
     # script in the app dir
     localConf = load(stream = file(configpath), Loader = Loader)
     CONFIG.update(localConf)
+    if not CONFIG.has_key("APP_PATH"):
+        CONFIG["APP_PATH"] = cwd
     if not CONFIG.has_key("HOME_PATH"):
         CONFIG["HOME_PATH"] = os.path.expanduser("~")
     if not CONFIG.has_key("USER_DATA_PATH"):

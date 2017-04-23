@@ -30,7 +30,7 @@ import modules.bootstrap as bootstrap
 import handlers.view as view
 
 TRAY_TOOLTIP = "MyCrypt(%s)" % CONFIG["SERVER_PORT"]
-TRAY_ICON = "./static/favicon.ico"
+TRAY_ICON = os.path.join(CONFIG["APP_PATH"], "static/mycrypt.ico")
 
 LOG = logging.getLogger(__name__)
 
@@ -43,8 +43,8 @@ class Application(tornado.web.Application):
         handlers = [(r"/", view.ViewHandler),
                     (r"/websocket", view.CryptSocketHandler)]
         settings = dict(
-            template_path = "templates",
-            static_path = "static",
+            template_path = os.path.join(CONFIG["APP_PATH"], "templates"),
+            static_path = os.path.join(CONFIG["APP_PATH"], "static"),
             ui_modules = [bootstrap,],
             debug = CONFIG["APP_DEBUG"]
             )
@@ -56,7 +56,7 @@ class WebServer(Thread):
         self.ioloop_instance = None
 
     def run(self):
-        tornado.locale.load_translations("translations")
+        tornado.locale.load_translations(os.path.join(CONFIG["APP_PATH"], "translations"))
         http_server = tornado.httpserver.HTTPServer(Application())
         # http_server.listen(options.port)
         # just for localhost & 127.0.0.1
@@ -141,6 +141,7 @@ class TaskBarIcon(wx.TaskBarIcon):
     def on_exit(self, event):
         common.sig_thread_handler(signal.SIGINT, None)
         wx.CallAfter(self.Destroy)
+        self.frame.Close()
 
 class PreferenceFrame(wx.Frame):
     def __init__(self, title, pos, size):
@@ -200,14 +201,14 @@ class App(wx.App):
         return True
 
 if __name__ == "__main__":
-    logger.config_logging(file_name = options.log, 
-                          log_level = CONFIG['LOG_LEVEL'], 
-                          dir_name = "logs", 
-                          day_rotate = False, 
-                          when = "D", 
-                          interval = 1, 
-                          max_size = 20, 
-                          backup_count = 5, 
+    logger.config_logging(file_name = options.log,
+                          log_level = CONFIG['LOG_LEVEL'],
+                          dir_name = "logs",
+                          day_rotate = False,
+                          when = "D",
+                          interval = 1,
+                          max_size = 20,
+                          backup_count = 5,
                           console = True)
 
     LOG.info("MyCrypt Start!")

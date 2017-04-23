@@ -54,6 +54,11 @@ You can run it from source, My laptop's OS is Xubuntu 64bit, so I just show how 
    # MyCrypt.py is a terminal application, MyCryptGUI.py is a GUI application(have a system tray icon) based on Wxpython
    python ./MyCrypt.py or python ./MyCryptGUI.py
 
+   # run app/Install.sh
+   cd MyCrypt/app
+   sudo ./Install.sh
+
+   # now you can run it from then applications menu. it under the 'Internet' category
    # open a web browser, recommend firefox or chrome, open page http://localhost:8000
    # you should see the main window
    ```
@@ -130,6 +135,11 @@ SERVER_PORT: 8000
    # MyCrypt.py是一个终端程序，MyCryptGUI.py是一个基于Wxpython的图形界面程序（会显示一个系统托盘图标）
    python ./MyCrypt.py 或 python ./MyCryptGUI.py
 
+   # 运行app/Install.sh安装脚本
+   cd MyCrypt/app
+   sudo ./Install.sh
+
+   # 现在你可以从系统程序菜单运行MyCrypt了
    # 在服务启动后，用浏览器（推荐用火狐或谷歌浏览器）打开http://localhost:8000
    # 应该就可以看到应用主界面了
    ```
