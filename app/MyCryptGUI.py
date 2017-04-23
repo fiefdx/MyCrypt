@@ -105,7 +105,8 @@ def create_menu_item(menu, label, func):
 
 
 class TaskBarIcon(wx.TaskBarIcon):
-    def __init__(self):
+    def __init__(self, frame):
+        self.frame = frame
         super(TaskBarIcon, self).__init__()
         self.set_icon(TRAY_ICON)
         self.preference = None
@@ -191,6 +192,13 @@ class PreferenceFrame(wx.Frame):
     def OnQuit(self, event):
         self.Close()
 
+class App(wx.App):
+    def OnInit(self):
+        frame = wx.Frame(None)
+        self.SetTopWindow(frame)
+        TaskBarIcon(frame)
+        return True
+
 if __name__ == "__main__":
     logger.config_logging(file_name = options.log, 
                           log_level = CONFIG['LOG_LEVEL'], 
@@ -210,8 +218,7 @@ if __name__ == "__main__":
     webserver.daemon = True
     webserver.start()
     try:
-        app = wx.App()
-        TaskBarIcon()
+        app = App(False)
         app.MainLoop()
     except Exception, e:
         LOG.exception(e)
