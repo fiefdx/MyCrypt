@@ -1,0 +1,11 @@
+################## requirements.txt ##################
+
+setuptools
+tornado >= 4.4.2
+toro
+psutil
+chardet
+pyyaml
+cython
+numpy
+python-dateutil
