@@ -851,6 +851,3 @@ class CryptSocketHandler(BaseSocketHandler):
             CryptSocketHandler.TASKS.append(paste_thread)
             TaskQueueLock.release()
             # paste_thread.start()
-
-
-
