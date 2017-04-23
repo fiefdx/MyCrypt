@@ -19,11 +19,14 @@ It works like this:
 MyCrypt/app/configuration.yml
 ```yaml
 APP_DEBUG: false
-HOME_PATH: /home/breeze
+
+# LOG_LEVEL
+# a value of (NOSET, DEBUG, INFO, WARNING, ERROR, CRITICAL)
+# default NOSET
 LOG_LEVEL: NOSET
+
 SERVER_HOST: 127.0.0.1
 SERVER_PORT: 8000
-USER_DATA_PATH: /home/breeze/Develop/MyCrypt/data/data.json
 ```
 
 
@@ -92,11 +95,14 @@ You can run it from source, My laptop's OS is Xubuntu 64bit, so I just show how 
 配置文件为 MyCrypt/app/configuration.yml
 ```yaml
 APP_DEBUG: false
-HOME_PATH: /home/breeze
+
+# LOG_LEVEL
+# a value of (NOSET, DEBUG, INFO, WARNING, ERROR, CRITICAL)
+# default NOSET
 LOG_LEVEL: NOSET
+
 SERVER_HOST: 127.0.0.1
 SERVER_PORT: 8000
-USER_DATA_PATH: /home/breeze/Develop/MyCrypt/data/data.json
 ```
 
 

@@ -1,6 +1,4 @@
 APP_DEBUG: false
-HOME_PATH: /home/breeze
 LOG_LEVEL: NOSET
 SERVER_HOST: 127.0.0.1
 SERVER_PORT: 8000
-USER_DATA_PATH: /home/breeze/Develop/MyCrypt/data/data.json

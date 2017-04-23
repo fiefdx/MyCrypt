@@ -18,7 +18,7 @@ except ImportError:
 import os
 #
 # default config
-cwd = '.'
+cwd = os.path.split(os.path.realpath(__file__))[0]
 configpath = os.path.join(cwd, "configuration.yml")
 
 def update(**kwargs):
@@ -35,11 +35,12 @@ try:
     # script in the app dir
     localConf = load(stream = file(configpath), Loader = Loader)
     CONFIG.update(localConf)
+    if not CONFIG.has_key("HOME_PATH"):
+        CONFIG["HOME_PATH"] = os.path.expanduser("~")
+    if not CONFIG.has_key("USER_DATA_PATH"):
+        CONFIG["USER_DATA_PATH"] = os.path.join(os.path.split(cwd)[0], "data/data.json")
 except Exception, e:
     print e
 
 if __name__ == "__main__":
     print "CONFIG: %s"%CONFIG
-
-
-
