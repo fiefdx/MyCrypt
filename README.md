@@ -5,7 +5,7 @@ An application for encrypt & decrypt local files with TEA, and it can do files/f
 It is more like a file manager base on python and web.
 
 It works like this:
-![Alt text](/doc/mycrypt_main_window.png?raw=true "mycrypt_main_window")
+![Alt text](/doc/mycrypt_main_window_en.png?raw=true "mycrypt_main_window")
 
 
 # Features
